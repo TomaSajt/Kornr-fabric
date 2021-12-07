@@ -9,7 +9,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.LiteralText;
 
 @Mixin(Screen.class)
-public class ExampleMixin {
+public class CommandMixin {
 
 	@Shadow
 	protected MinecraftClient client;
@@ -25,6 +25,5 @@ public class ExampleMixin {
 		} else {
 			this.client.player.sendChatMessage(message);
 		}
-
 	}
 }
