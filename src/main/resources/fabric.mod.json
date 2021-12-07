@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Kornr",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "Oh hell naw, he cheatin",
   "authors": [
     "TomaSajt"
   ],
@@ -13,7 +13,7 @@
     "sources": "https://github.com/TomaSajt/Kornr-fabric"
   },
 
-  "license": "CC0-1.0",
+  "license": "Apache-2.0",
   "icon": "assets/kornr/icon.png",
 
   "environment": "*",
