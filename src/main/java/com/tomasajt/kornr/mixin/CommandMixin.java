@@ -1,27 +1,36 @@
 package com.tomasajt.kornr.mixin;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
+import com.tomasajt.kornr.Kornr;
+import com.tomasajt.kornr.screen.KornrSettingsScreen;
 
-import net.minecraft.client.MinecraftClient;
+import org.spongepowered.asm.mixin.Mixin;
+
+import baritone.api.BaritoneAPI;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
-@Mixin(Screen.class)
-public class CommandMixin {
+@Mixin(ChatScreen.class)
+public abstract class CommandMixin extends Screen {
 
-	@Shadow
-	protected MinecraftClient client;
+	protected CommandMixin(Text title) {
+		super(title);
+	}
 
-	@Overwrite
-	public void sendMessage(String message, boolean inHud) {
-		if (inHud) {
-			this.client.inGameHud.getChatHud().addToMessageHistory(message);
-		}
-		if (message.startsWith("#")) {
-			var command = message.substring(1);
-			this.client.inGameHud.getChatHud().addMessage(new LiteralText("You tried to run the following command: " + command));
+	@Override
+	public void sendMessage(String message) {
+		var baritone = BaritoneAPI.getProvider().getPrimaryBaritone();
+		this.client.inGameHud.getChatHud().addToMessageHistory(message);
+		if (message.equalsIgnoreCase("#getRich")) {
+			this.client.inGameHud.getChatHud()
+					.addMessage(new LiteralText("Getting rich in progress..."));
+			baritone.getMineProcess().mine(Blocks.DIAMOND_ORE);
+
+		} else if (message.equalsIgnoreCase("#menu")) {
+			Kornr.shouldOpenMenu = true;
 		} else {
 			this.client.player.sendChatMessage(message);
 		}
